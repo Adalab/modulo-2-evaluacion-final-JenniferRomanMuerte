@@ -1,4 +1,5 @@
 @use "../../core/mixins" as mix;
+@use "../../core/variables" as var;
 
 .articleList {
   grid-area: products;
@@ -9,5 +10,25 @@
   }
   &__list {
     @include mix.ul();
+
+     // Si está en el carrito le añadimos esta clase para modificar los estilos
+    &--li.isInCart {
+      background-color: var.$color_primary;
+      color: var.$color_secondary;
+      border: 2px solid var.$color_primary;
+    }
+    // Y si el li tiene esa clase cambiamos el estilo en la clase del btn
+    &--li.isInCart .articleList__list--li--btn {
+      background-color: var.$color_secondary;
+      color: var.$color_primary;
+     
+    }
+    &--li.isInCart .articleList__list--li--containerImg--img {
+      border: 2px solid var.$color_primary;
+      border-radius: 5px;
+    }
   }
 }
+
+
+

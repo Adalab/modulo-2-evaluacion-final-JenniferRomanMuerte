@@ -11,11 +11,11 @@ const renderProductsList = (products) => {
 
     // Creamos el elemento div que contiene la foto
     const divElement = document.createElement("div");
-    divElement.classList.add("articleList__list--li--conatinerImg");
+    divElement.classList.add("articleList__list--li--containerImg");
 
     // Creamos el elemento img
     const imgElement = document.createElement("img");
-    imgElement.classList.add("articleList__list--li--conatinerImg--img");
+    imgElement.classList.add("articleList__list--li--containerImg--img");
     imgElement.setAttribute("src", "https://placehold.co/150x200");
 
     // Añadimos la imagen a su contenedor
@@ -76,4 +76,16 @@ const addingCart = (ev, products) => {
 
   // Llamamos a la funcion para que los pinte en la lista de carrito
   renderCart(productsInCart);
+
+  // Llamamos a una función para cambiar lois estilos del elemento seleccionado
+  changeStyleIfIsFavorite(productSelectElement);
 };
+
+
+const changeStyleIfIsFavorite = (productSelectElement) =>{
+  console.log('Elemento Seleccionado como favorito', productSelectElement)
+
+  // Añadimos o quitamos la clase al elemento li(padre) para darle otros estilos
+  productSelectElement.classList.toggle("isInCart");
+
+}
