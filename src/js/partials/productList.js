@@ -1,8 +1,9 @@
 const productsListElement = document.querySelector(".js_productsList");
 
+let productsInCart = [];
+
 const renderProductsList = (products) => {
   for (const product of products) {
-
     // Creamos el elemento li
     const liElement = document.createElement("li");
     liElement.classList.add("articleList__list--li");
@@ -15,24 +16,24 @@ const renderProductsList = (products) => {
     // Creamos el elemento img
     const imgElement = document.createElement("img");
     imgElement.classList.add("articleList__list--li--conatinerImg--img");
-    imgElement.setAttribute('src', 'https://placehold.co/150x200');
+    imgElement.setAttribute("src", "https://placehold.co/150x200");
 
     // Añadimos la imagen a su contenedor
     divElement.appendChild(imgElement);
 
     // Creamos el elemento del titulo
-    const h3Element = document.createElement('h3');
+    const h3Element = document.createElement("h3");
     h3Element.classList.add("articleList__list--li--title");
     h3Element.textContent = product.title;
 
     // Creamos el elemento del precio
-    const spanElement = document.createElement('span');
+    const spanElement = document.createElement("span");
     spanElement.classList.add("articleList__list--li--span");
     spanElement.textContent = `${product.price} €`;
 
     // Creamos el botón
-    const btnElement = document.createElement('button');
-    btnElement.classList.add("articleList__list--li--btn");
+    const btnElement = document.createElement("button");
+    btnElement.classList.add("articleList__list--li--btn", "js_btnBuy");
     btnElement.textContent = "Comprar";
 
     // Añadimos los elementos al li
@@ -44,4 +45,35 @@ const renderProductsList = (products) => {
     // Añadimos los elementos  li al ul
     productsListElement.appendChild(liElement);
   }
+  const allbtnProducts = document.querySelectorAll(".js_btnBuy");
+  for (const btnProduct of allbtnProducts) {
+    btnProduct.addEventListener("click", (ev) => addingCart(ev, products));
+  }
+};
+
+// Función para añadir elementos al carrito
+const addingCart = (ev, products) => {
+  // Accedemos al elemento clicado
+  const btnClicked = ev.currentTarget;
+
+  //Accedemos al padre del elemento clicado (li)
+  const productSelectElement = btnClicked.parentNode;
+
+  // Recuperamos el id que asociamos al li
+  const idProduct = productSelectElement.id;
+
+  // Buscamos el producto en el array de productos con el id que tenemos del li
+  const productSelected = products.find(
+    (product) => product.id === Number(idProduct)
+  );
+  /*
+  Comprobamos si ha obtenido algún producto,
+  si hemos recuperado el producto lo añadimos al array del carro de la compra
+  */
+  if (productSelected != "") {
+    productsInCart.push(productSelected);
+  }
+
+  // Llamamos a la funcion para que los pinte en la lista de carrito
+  renderCart(productsInCart);
 };

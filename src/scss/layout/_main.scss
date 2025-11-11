@@ -1,5 +1,9 @@
 .main{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 2fr;
+  grid-template-areas:
+  'search search'
+  'cart products';
+  justify-content: center;
+  align-content: center;
 }

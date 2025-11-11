@@ -21,3 +21,4 @@ requestData();
 
 import "./partials/productList.js";
 import "./partials/searchProducts.js";
+import "./partials/shoppingCart.js";

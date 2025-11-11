@@ -1,6 +1,8 @@
 @use '../../core/variables' as var;
 
 .articleSearch{
+  margin: 0 auto;
+  grid-area: search;
   display: flex;
   margin-top: 4rem;
   padding-block: 3rem;

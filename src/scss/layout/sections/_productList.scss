@@ -1,6 +1,7 @@
 @use "../../core/mixins" as mix;
 
 .articleList {
+  grid-area: products;
   &__subtitle {
     text-align: center;
     margin-top: 4rem;
