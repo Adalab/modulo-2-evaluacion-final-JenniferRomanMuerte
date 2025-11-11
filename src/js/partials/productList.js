@@ -71,7 +71,19 @@ const addingCart = (ev, products) => {
   si hemos recuperado el producto lo añadimos al array del carro de la compra
   */
   if (productSelected != "") {
-    productsInCart.push(productSelected);
+    const productIndex = productsInCart.findIndex(
+      (product) => product.id === productSelected.id
+    );
+
+    if(productIndex === -1){
+      productsInCart.push(productSelected);
+      console.log('producto añadido');
+    }
+    else{
+      productsInCart.splice(productIndex,1);
+      console.log('producto eliminado');
+    }
+
   }
 
   // Llamamos a la funcion para que los pinte en la lista de carrito
@@ -81,11 +93,9 @@ const addingCart = (ev, products) => {
   changeStyleIfIsFavorite(productSelectElement);
 };
 
-
-const changeStyleIfIsFavorite = (productSelectElement) =>{
-  console.log('Elemento Seleccionado como favorito', productSelectElement)
+const changeStyleIfIsFavorite = (productSelectElement) => {
+  console.log("Elemento Seleccionado como favorito", productSelectElement);
 
   // Añadimos o quitamos la clase al elemento li(padre) para darle otros estilos
   productSelectElement.classList.toggle("isInCart");
-
-}
+};
