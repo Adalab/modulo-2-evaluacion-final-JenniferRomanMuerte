@@ -2,6 +2,7 @@ const productsListElement = document.querySelector(".js_productsList");
 
 const renderProductsList = (products) => {
   for (const product of products) {
+
     // Creamos el elemento li
     const liElement = document.createElement("li");
     liElement.classList.add("articleList__list--li");
