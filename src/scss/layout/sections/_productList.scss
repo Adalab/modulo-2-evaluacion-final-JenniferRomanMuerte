@@ -1,0 +1,12 @@
+@use "../../core/mixins" as mix;
+
+.articleList {
+  &__subtitle {
+    text-align: center;
+    margin-top: 4rem;
+    font-size: 3rem;
+  }
+  &__list {
+    @include mix.ul();
+  }
+}

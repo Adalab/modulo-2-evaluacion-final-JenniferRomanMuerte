@@ -1,0 +1,44 @@
+@use './variables' as var;
+
+@mixin ul() {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 5rem;
+  &--li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20rem;
+    padding: 1rem;
+    gap: 1rem;
+
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    &--div {
+      width: 100%;
+      &--img {
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
+    &--title {
+      font-size: 1.3rem;
+      text-align: justify;
+      padding-inline: 1rem;
+    }
+    &--span {
+      font-size: 1.2rem;
+    }
+    &--btn {
+      padding: 0.5rem;
+      padding-inline: 1rem;
+      background-color:var.$color_primary;
+      color: var.$color_secondary;
+      border-radius: 5px;
+      border: 1px solid var.$color_text;
+    }
+  }
+}
