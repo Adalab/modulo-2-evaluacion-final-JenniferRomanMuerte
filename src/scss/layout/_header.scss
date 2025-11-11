@@ -1,0 +1,9 @@
+.header {
+  background-color: antiquewhite;
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid black;
+  &__title {
+    font-size: 3rem;
+  }
+}
