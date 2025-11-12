@@ -3,6 +3,7 @@
 
 .articleList {
   grid-area: products;
+  box-shadow: var.$box-shadow_sections;
   &__subtitle {
     text-align: center;
     margin-top: 4rem;

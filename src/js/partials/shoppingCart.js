@@ -1,6 +1,6 @@
+const articleCart = document.querySelector(".articleCart");
 const cartListElement = document.querySelector(".js_cartList");
-const buttonDeleteAll = document.querySelector('.js_buttonDeleteAll');
-
+const buttonDeleteAll = document.querySelector(".js_buttonDeleteAll");
 
 // Función para pintar los productos del carrito
 const renderCart = (productsInCart) => {
@@ -20,10 +20,9 @@ const renderCart = (productsInCart) => {
     // Creamos el elemento img
     const imgElement = document.createElement("img");
     imgElement.classList.add("articleList__list--li--containerImg--img");
-    if(product.image != undefined){
+    if (product.image != undefined) {
       imgElement.setAttribute("src", product.image);
-    }
-    else{
+    } else {
       imgElement.setAttribute("src", "https://placehold.co/150x200");
     }
     // Añadimos la imagen a su contenedor
@@ -89,11 +88,18 @@ const deleteElementInCart = (ev) => {
     );
 
     // Si es distinto de -1(Sería que no lo encuentra) entonces lo borramos
-    if(productIndex !== -1){
-     // Usamos su índice para borrralo
-      productsInCart.splice(productIndex,1);
-      // Actualizamos el array a localStorage pasandolo a string
-      localStorage.setItem('productsInCart',JSON.stringify(productsInCart));
+    if (productIndex !== -1) {
+      // Usamos su índice para borrralo
+      productsInCart.splice(productIndex, 1);
+
+      // Si el array de productos en el carrito se queda vacio borramos el item de localStorage
+      if (productsInCart.length === 0) {
+        localStorage.removeItem("productsInCart");
+        articleCart.classList.add('hidden');
+      } else {
+        // Si aún quedan productos el el array del carrito, actualizamos el localStorage
+        localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+      }
 
       // Volvemos a pintar la lista del carrito con el nuevo array
       renderCart(productsInCart);
@@ -102,25 +108,24 @@ const deleteElementInCart = (ev) => {
       changeStyleIfIsFavorite(productElementClicked);
     }
   }
-
 };
 
 // Función para borrar todos los productos del carrito
-const deleteAllInCart = (ev) =>{
+const deleteAllInCart = (ev) => {
 
   // Dejamos el array de productos en el carrito vacío
   productsInCart = [];
-  // Llamamos a pintar de nuevo la lista del carrito
-  renderCart(productsInCart);
+
   // Borramos los productos del localStorage
-  localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+  localStorage.removeItem("productsInCart");
+
+   articleCart.classList.add("hidden");
 
   // Capturamos todos los elementos de la lista de productos que tengan la clase isInCart
   const productsMarked = productsListElement.querySelectorAll(".isInCart");
 
   // Recorremos la lista de estos elementos
-  for(const productMarked of productsMarked){
-
+  for (const productMarked of productsMarked) {
     // Le quitamos la clase al elemento li
     productMarked.classList.remove("isInCart");
     // Capturamos el botón
@@ -128,10 +133,10 @@ const deleteAllInCart = (ev) =>{
     // Si existe le cambiamos el texto
     if (btn) btn.textContent = "Comprar";
   }
+};
 
-}
+buttonDeleteAll.addEventListener("click", deleteAllInCart);
 
-buttonDeleteAll.addEventListener('click', deleteAllInCart);
 
 // Si existe el item productsInCart en localStorage
 if (localStorage.getItem("productsInCart")) {
@@ -142,4 +147,6 @@ if (localStorage.getItem("productsInCart")) {
   renderCart(JSON.parse(localStorage.getItem("productsInCart")));
   // Guardamos los datos que recuperamos del localStorage en el array de productos en el carrito
   productsInCart = JSON.parse(localStorage.getItem("productsInCart"));
+} else {
+  articleCart.classList.add("hidden");
 }

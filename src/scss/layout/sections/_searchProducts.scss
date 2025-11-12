@@ -10,7 +10,7 @@
   align-items: center;
   width: 70%;
   gap:4rem;
-  box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.20);
+  box-shadow: var.$box-shadow_sections;
   border-radius: 5px;
   &__input{
     padding: 0.5rem;

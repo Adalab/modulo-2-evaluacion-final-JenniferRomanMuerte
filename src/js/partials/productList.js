@@ -19,10 +19,9 @@ const renderProductsList = (products) => {
     // Creamos el elemento img
     const imgElement = document.createElement("img");
     imgElement.classList.add("articleList__list--li--containerImg--img");
-    if(product.image != undefined){
+    if (product.image != undefined) {
       imgElement.setAttribute("src", product.image);
-    }
-    else{
+    } else {
       imgElement.setAttribute("src", "https://placehold.co/150x200");
     }
 
@@ -73,7 +72,9 @@ const renderProductsList = (products) => {
       buscando con el id del li de productos en el carrito,
       el elemento li con el atributo id igual al id del producto en el carrito
       */
-      const liInProducts = productsListElement.querySelector(`[id="${product.id}"]`);
+      const liInProducts = productsListElement.querySelector(
+        `[id="${product.id}"]`
+      );
       // Si existe
       if (liInProducts) {
         // Le añadimos la clase isInCart
@@ -89,6 +90,10 @@ const renderProductsList = (products) => {
 
 // Función para añadir elementos al carrito
 const addingCart = (ev, products) => {
+
+  // Mostramos la sección del carrito
+  articleCart.classList.remove("hidden");
+  
   // Accedemos al elemento clicado
   const btnClicked = ev.currentTarget;
 
@@ -121,8 +126,14 @@ const addingCart = (ev, products) => {
     } else {
       // Si devuelve su índice es que está, entonces lo borramos
       productsInCart.splice(productIndex, 1);
-      // Actualizamos el array a localStorage pasandolo a string
-      localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+
+      // Si el array de productos en el carrito se queda vacio borramos el item de localStorage
+      if (productsInCart.length === 0) {
+        localStorage.removeItem("productsInCart");
+      } else {
+        // Si aún quedan productos el el array del carrito, actualizamos el localStorage
+        localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+      }
     }
   }
 
@@ -135,10 +146,10 @@ const addingCart = (ev, products) => {
 
 // Función para cambiar el estilo si está seleccionado
 const changeStyleIfIsFavorite = (productSelectElement) => {
-
   // Accedemos al elemento li hijo de productsListElement por su atributo id
-  const productSelectElementInProducts =
-  productsListElement.querySelector(`[id="${productSelectElement.id}"]`);
+  const productSelectElementInProducts = productsListElement.querySelector(
+    `[id="${productSelectElement.id}"]`
+  );
 
   // Añadimos o quitamos la clase al elemento li(padre) para darle otros estilos
   productSelectElementInProducts.classList.toggle("isInCart");

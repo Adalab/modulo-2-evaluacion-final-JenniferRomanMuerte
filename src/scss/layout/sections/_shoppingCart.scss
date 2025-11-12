@@ -2,7 +2,20 @@
 
 .articleCart{
   grid-area: cart;
-  border: 1px solid var.$color_text;
+  box-shadow: var.$box-shadow_sections;
   display: flex;
   flex-direction: column;
+  &__btnDeleteAll{
+    margin: 0 auto;
+    width: 60%;
+    padding-block: 1rem;
+    background-color: var.$color_delete;
+    color: var.$color_secondary;
+    border-radius: 5px;
+    border: none;
+  }
+}
+
+.hidden{
+  display: none;
 }
