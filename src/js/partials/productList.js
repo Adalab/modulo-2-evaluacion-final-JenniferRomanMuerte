@@ -3,11 +3,9 @@ const productsListElement = document.querySelector(".js_productsList");
 // Array para capturar los productos en el carrito
 let productsInCart = [];
 
-// Función para pintar los productos
-const renderProductsList = (products) => {
-  // Recorremos el array de productos
-  for (const product of products) {
-    // Creamos el elemento li
+// Función para crear los elementos li comunes en productList y en cartList
+const createBaseProductLi = (product) => {
+  // Creamos el elemento li
     const liElement = document.createElement("li");
     liElement.classList.add("articleList__list--li");
     liElement.setAttribute("id", product.id);
@@ -37,15 +35,29 @@ const renderProductsList = (products) => {
     spanElement.classList.add("articleList__list--li--span");
     spanElement.textContent = `${product.price} €`;
 
+    // Añadimos los elementos al li
+    liElement.appendChild(divElement);
+    liElement.appendChild(h3Element);
+    liElement.appendChild(spanElement);
+
+    // Devuelvo el elemento li con los elementos comúnes creados
+    return liElement;
+
+}
+// Función para pintar los productos
+const renderProductsList = (products) => {
+  // Recorremos el array de productos
+  for (const product of products) {
+
+    // Llamamos a la función que nos crea los elementos comunes de los li
+    const liElement = createBaseProductLi(product);
+
     // Creamos el botón
     const btnElement = document.createElement("button");
     btnElement.classList.add("articleList__list--li--btn", "js_btnBuy");
     btnElement.textContent = "Comprar";
 
-    // Añadimos los elementos al li
-    liElement.appendChild(divElement);
-    liElement.appendChild(h3Element);
-    liElement.appendChild(spanElement);
+    // Añadimos el botóns al li
     liElement.appendChild(btnElement);
 
     // Añadimos los elementos  li al ul

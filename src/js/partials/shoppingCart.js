@@ -8,35 +8,9 @@ const renderCart = (productsInCart) => {
   cartListElement.innerHTML = "";
   // Recorremos el array de productos en el carrito
   for (const product of productsInCart) {
-    // Creamos el elemento li
-    const liElement = document.createElement("li");
-    liElement.classList.add("articleList__list--li");
-    liElement.setAttribute("id", product.id);
 
-    // Creamos el elemento div que contiene la foto
-    const divElement = document.createElement("div");
-    divElement.classList.add("articleList__list--li--containerImg");
-
-    // Creamos el elemento img
-    const imgElement = document.createElement("img");
-    imgElement.classList.add("articleList__list--li--containerImg--img");
-    if (product.image != undefined) {
-      imgElement.setAttribute("src", product.image);
-    } else {
-      imgElement.setAttribute("src", "https://placehold.co/150x200");
-    }
-    // Añadimos la imagen a su contenedor
-    divElement.appendChild(imgElement);
-
-    // Creamos el elemento del titulo
-    const h3Element = document.createElement("h3");
-    h3Element.classList.add("articleList__list--li--title");
-    h3Element.textContent = product.title;
-
-    // Creamos el elemento del precio
-    const spanElement = document.createElement("span");
-    spanElement.classList.add("articleList__list--li--span");
-    spanElement.textContent = `${product.price} €`;
+    // Llamamos a la función que nos crea los elementos comunes de los li
+    const liElement = createBaseProductLi(product);
 
     // Creamos un div para la x de eliminar
     const deleteElement = document.createElement("div");
@@ -69,15 +43,12 @@ const renderCart = (productsInCart) => {
     );
     incrementQuantity.textContent = "+";
 
-    // Añadimos los botones y el span al div
+    // Añadimos los botones y el span al div de quantity
     quantityElement.appendChild(decrementQuantity);
     quantityElement.appendChild(quantity);
     quantityElement.appendChild(incrementQuantity);
 
-    // Añadimos los elementos al li
-    liElement.appendChild(divElement);
-    liElement.appendChild(h3Element);
-    liElement.appendChild(spanElement);
+    // Añadimos los elementos nuevos al li
     liElement.appendChild(deleteElement);
     liElement.appendChild(quantityElement);
 
