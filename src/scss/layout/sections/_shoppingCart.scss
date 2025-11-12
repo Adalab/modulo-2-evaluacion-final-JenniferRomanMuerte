@@ -1,11 +1,14 @@
-@use '../../core/variables' as var;
+@use "../../core/variables" as var;
 
-.articleCart{
+.articleCart {
   grid-area: cart;
   box-shadow: var.$box-shadow_sections;
+  background-color:var.$card-color_background;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
-  &__btnDeleteAll{
+  margin-inline: 3rem;
+  &__btnDeleteAll {
     margin: 0 auto;
     width: 60%;
     padding-block: 1rem;
@@ -13,9 +16,16 @@
     color: var.$color_secondary;
     border-radius: 5px;
     border: none;
+    transition: transform 0.2s ease;
+    &:hover {
+      transform: scale(1.05) translateY(-5px);
+      background-color: var.$color_secondary;
+      color: var.$color_delete;
+      border: 3px solid var.$color_delete;
+    }
   }
 }
 
-.hidden{
+.hidden {
   display: none;
 }

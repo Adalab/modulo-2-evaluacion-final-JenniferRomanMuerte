@@ -4,7 +4,7 @@
   margin: 0 auto;
   grid-area: search;
   display: flex;
-  margin-top: 4rem;
+  margin-block: 4rem;
   padding-block: 3rem;
   justify-content: center;
   align-items: center;
@@ -12,6 +12,7 @@
   gap:4rem;
   box-shadow: var.$box-shadow_sections;
   border-radius: 5px;
+  background-color: var.$color_secondary;
   &__input{
     padding: 0.5rem;
     border: 2px solid var.$color_primary;
@@ -20,10 +21,19 @@
   &__btn{
     background-color: var.$color_primary;
     color: var.$color_secondary;
+    font-weight: var.$font-weight_title;
     border-radius: 5px;
     padding: 0.6rem;
     padding-inline: 2rem;
     border: 1px solid var.$color_text;
+    cursor: pointer;
+      transition: transform 0.2s ease;
+      &:hover {
+        transform: scale(1.05) translateY(-5px);
+        background-color: var.$color_secondary;
+        color: var.$color_primary;
+        border: 3px solid var.$color_primary;
+      }
   }
 
 }

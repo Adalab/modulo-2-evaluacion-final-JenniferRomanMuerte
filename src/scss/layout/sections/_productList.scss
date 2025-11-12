@@ -4,30 +4,37 @@
 .articleList {
   grid-area: products;
   box-shadow: var.$box-shadow_sections;
+  background-color: var.$card-color_background;
+  border-radius: 5px;
+  width: 95%;
+  margin: 0 auto;
   &__subtitle {
     text-align: center;
     margin-top: 4rem;
     font-size: 3rem;
+    color:var.$color_primary;
+    text-shadow: 2px 2px 4px rgba(0,0,0,.3);
   }
   &__list {
     @include mix.ul();
-
      // Si está en el carrito le añadimos esta clase para modificar los estilos
     &--li.isInCart {
-      background-color: var.$color_primary;
+      background-color: var.$color_text;
       color: var.$color_secondary;
-      border: 1px solid var.$color_delete;
+      border: 1px solid var.$color_primary;
 
     }
     // Y si el li tiene esa clase cambiamos el estilo en la clase del btn
     &--li.isInCart .articleList__list--li--btn {
       background-color: var.$color_delete;
       border: 1px solid var.$color_secondary;
-
-    }
-    &--li.isInCart .articleList__list--li--containerImg--img {
-      border: 2px solid var.$color_primary;
-      border-radius: 5px;
+      transition: transform 0.2s ease;
+       &:hover{
+        transform: scale(1.05) translateY(-5px);
+        background-color:var.$color_secondary;
+        color: var.$color_delete;
+        border: 3px solid var.$color_delete;
+      }
     }
   }
 }

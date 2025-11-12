@@ -1,3 +1,4 @@
+@use '../core/variables' as var;
 .main{
   display: grid;
   grid-template-columns: 2fr;
@@ -6,4 +7,5 @@
   'cart products';
   justify-content: center;
   align-content: center;
+  background-color: var.$color_background;
 }

@@ -1,54 +1,98 @@
-@use './variables' as var;
+@use "./variables" as var;
 
 @mixin ul() {
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
   padding: 5rem;
+  justify-content: center;
   &--li {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 20rem;
+    width: 25rem;
     padding: 1rem;
     gap: 1rem;
     border-radius: 5px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0px 12px 2px rgba(0, 0, 0, 0.4);
+    background-color: var.$color_secondary;
     &--containerImg {
       width: 100%;
+      height: 20rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       &--img {
-        width: 100%;
-        background-size: cover;
-        background-repeat: no-repeat;
+        max-height: 100%;
+        max-width: 100%;
+        object-fit: contain;
+        display: block;
       }
     }
-    &--div{
+    &--div {
       position: absolute;
       border: 1px solid var.$color_text;
       padding: 0.5rem;
       border-radius: 5px;
       background-color: var.$color_delete;
       color: var.$color_secondary;
+      font-weight: var.$font-weight_title;
       bottom: 1rem;
       right: 1rem;
+      &:hover {
+        background-color: var.$color_secondary;
+        color: var.$color_delete;
+        border: 3px solid var.$color_delete;
+      }
     }
     &--title {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       text-align: justify;
       padding-inline: 1rem;
     }
     &--span {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
     }
     &--btn {
-      padding: 0.5rem;
-      padding-inline: 1rem;
-      background-color:var.$color_primary;
+      padding: 1rem;
+      padding-inline: 4rem;
+      background-color: var.$color_primary;
       color: var.$color_secondary;
+      font-weight: var.$font-weight_title;
       border-radius: 5px;
       border: 1px solid var.$color_text;
+      margin-top: auto;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      &:hover {
+        transform: scale(1.05) translateY(-5px);
+        background-color: var.$color_secondary;
+        color: var.$color_primary;
+        border: 3px solid var.$color_primary;
+      }
+    }
+    &--divQuantity {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      &--btn {
+        padding: 0.5rem;
+        background-color: var.$color_primary;
+        color: var.$color_secondary;
+        font-weight: var.$font-weight_title;
+        border-radius: 5px;
+        border: 1px solid var.$color_text;
+        &:hover {
+          background-color: var.$color_secondary;
+          color: var.$color_primary;
+          border: 3px solid var.$color_primary;
+        }
+      }
+      &--span {
+        font-size: 1.5rem;
+      }
     }
   }
 }
