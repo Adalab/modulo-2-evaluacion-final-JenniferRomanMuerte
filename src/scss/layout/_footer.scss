@@ -1,0 +1,13 @@
+@use '../core/variables' as var;
+
+.footer{
+  display: flex;
+  justify-content: center;
+  background-color: var.$color_primary;
+  padding-block: 3rem;
+  &__span{
+
+    color: var.$color_secondary;
+    font-size: 1.4rem;
+  }
+}
