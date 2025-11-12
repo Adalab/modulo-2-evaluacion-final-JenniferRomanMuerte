@@ -3,6 +3,8 @@
 
 let products = [];
 
+
+
 const requestData = () => {
   fetch("https://fakestoreapi.com/products")
     .then((response) => response.json())

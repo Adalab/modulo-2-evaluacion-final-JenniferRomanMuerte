@@ -1,8 +1,12 @@
 const productsListElement = document.querySelector(".js_productsList");
 
+// Array para capturar los productos en el carrito
 let productsInCart = [];
 
+
+// Función para pintar los productos
 const renderProductsList = (products) => {
+  // Recorremos el array de productos
   for (const product of products) {
     // Creamos el elemento li
     const liElement = document.createElement("li");
@@ -45,8 +49,15 @@ const renderProductsList = (products) => {
     // Añadimos los elementos  li al ul
     productsListElement.appendChild(liElement);
   }
+
+  // Capturamos todos los botones depués de pintarlos
   const allbtnProducts = document.querySelectorAll(".js_btnBuy");
+  // Recorremos el array de botones
   for (const btnProduct of allbtnProducts) {
+    /*
+    A cada uno le asignamos un evento y una función anónima,
+    donde le pasamos el evento y el array de productos
+    */
     btnProduct.addEventListener("click", (ev) => addingCart(ev, products));
   }
 };
@@ -66,22 +77,28 @@ const addingCart = (ev, products) => {
   const productSelected = products.find(
     (product) => product.id === Number(idProduct)
   );
-  /*
-  Comprobamos si ha obtenido algún producto,
-  si hemos recuperado el producto lo añadimos al array del carro de la compra
-  */
+
+  //Comprobamos si ha obtenido algún producto
   if (productSelected != "") {
+    /*
+    Obtenemos su índice en el array del carrito de la compra,
+    através del id del producto seleccionado
+    */
     const productIndex = productsInCart.findIndex(
       (product) => product.id === productSelected.id
     );
 
+    // Si devuelve -1 es que no está, entonces lo añadimos
     if(productIndex === -1){
       productsInCart.push(productSelected);
-      console.log('producto añadido');
+      // Añadimos el array a localStorage pasandolo a string
+      localStorage.setItem('productsInCart',JSON.stringify(productsInCart));
     }
     else{
+      // Si devuelve su índice es que está, entonces lo borramos
       productsInCart.splice(productIndex,1);
-      console.log('producto eliminado');
+      // Actualizamos el array a localStorage pasandolo a string
+      localStorage.setItem('productsInCart',JSON.stringify(productsInCart));
     }
 
   }
@@ -93,9 +110,22 @@ const addingCart = (ev, products) => {
   changeStyleIfIsFavorite(productSelectElement);
 };
 
+
+// Función para cambiar el estilo si está seleccionado
 const changeStyleIfIsFavorite = (productSelectElement) => {
-  console.log("Elemento Seleccionado como favorito", productSelectElement);
+
 
   // Añadimos o quitamos la clase al elemento li(padre) para darle otros estilos
   productSelectElement.classList.toggle("isInCart");
+
+  // Accedemos al boton
+  const btnProductSelectElement = productSelectElement.querySelector('.js_btnBuy');
+
+  // Capturamos el texto y lo comparamos para cambiarle el texto dependiendo de si está seleccionado
+  if(btnProductSelectElement.textContent === 'Comprar'){
+    btnProductSelectElement.textContent = 'Eliminar';
+  }
+  else{
+    btnProductSelectElement.textContent = 'Comprar';
+  }
 };

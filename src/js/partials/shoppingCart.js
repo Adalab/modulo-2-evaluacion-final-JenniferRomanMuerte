@@ -1,8 +1,12 @@
 
-const cartListElement = document.querySelector('.js_cartList');
+const cartListElement = document.querySelector(".js_cartList");
 
+
+// Función para pintar los productos del carrito
 const renderCart = (productsInCart) =>{
+  // Vaciamos el elemento de la lista de productos en el carrito
   cartListElement.innerHTML = "";
+  // Recorremos el array de productos en el carrito
   for (const product of productsInCart) {
     // Creamos el elemento li
     const liElement = document.createElement("li");
@@ -40,4 +44,13 @@ const renderCart = (productsInCart) =>{
     // Añadimos los elementos  li al ul
     cartListElement.appendChild(liElement);
   }
+}
+
+// Si existe el item productsInCart en localStorage
+if(localStorage.getItem("productsInCart")){
+  /*
+  Recuperamos su valor, lo pasamos a Json,
+  y llamamos a la función para pintar el carrito
+  */
+  renderCart(JSON.parse(localStorage.getItem("productsInCart")));
 }
