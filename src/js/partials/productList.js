@@ -6,49 +6,47 @@ let productsInCart = [];
 // Función para crear los elementos li comunes en productList y en cartList
 const createBaseProductLi = (product) => {
   // Creamos el elemento li
-    const liElement = document.createElement("li");
-    liElement.classList.add("articleList__list--li");
-    liElement.setAttribute("id", product.id);
+  const liElement = document.createElement("li");
+  liElement.classList.add("articleList__list--li");
+  liElement.setAttribute("id", product.id);
 
-    // Creamos el elemento div que contiene la foto
-    const divElement = document.createElement("div");
-    divElement.classList.add("articleList__list--li--containerImg");
+  // Creamos el elemento div que contiene la foto
+  const divElement = document.createElement("div");
+  divElement.classList.add("articleList__list--li--containerImg");
 
-    // Creamos el elemento img
-    const imgElement = document.createElement("img");
-    imgElement.classList.add("articleList__list--li--containerImg--img");
-    if (product.image != undefined) {
-      imgElement.setAttribute("src", product.image);
-    } else {
-      imgElement.setAttribute("src", "https://placehold.co/150x200");
-    }
+  // Creamos el elemento img
+  const imgElement = document.createElement("img");
+  imgElement.classList.add("articleList__list--li--containerImg--img");
+  if (product.image != undefined) {
+    imgElement.setAttribute("src", product.image);
+  } else {
+    imgElement.setAttribute("src", "https://placehold.co/150x200");
+  }
 
-    // Añadimos la imagen a su contenedor
-    divElement.appendChild(imgElement);
-    // Creamos el elemento del titulo
-    const h3Element = document.createElement("h3");
-    h3Element.classList.add("articleList__list--li--title");
-    h3Element.textContent = product.title;
+  // Añadimos la imagen a su contenedor
+  divElement.appendChild(imgElement);
+  // Creamos el elemento del titulo
+  const h3Element = document.createElement("h3");
+  h3Element.classList.add("articleList__list--li--title");
+  h3Element.textContent = product.title;
 
-    // Creamos el elemento del precio
-    const spanElement = document.createElement("span");
-    spanElement.classList.add("articleList__list--li--span");
-    spanElement.textContent = `${product.price} €`;
+  // Creamos el elemento del precio
+  const spanElement = document.createElement("span");
+  spanElement.classList.add("articleList__list--li--span");
+  spanElement.textContent = `${product.price} €`;
 
-    // Añadimos los elementos al li
-    liElement.appendChild(divElement);
-    liElement.appendChild(h3Element);
-    liElement.appendChild(spanElement);
+  // Añadimos los elementos al li
+  liElement.appendChild(divElement);
+  liElement.appendChild(h3Element);
+  liElement.appendChild(spanElement);
 
-    // Devuelvo el elemento li con los elementos comúnes creados
-    return liElement;
-
-}
+  // Devuelvo el elemento li con los elementos comúnes creados
+  return liElement;
+};
 // Función para pintar los productos
 const renderProductsList = (products) => {
   // Recorremos el array de productos
   for (const product of products) {
-
     // Llamamos a la función que nos crea los elementos comunes de los li
     const liElement = createBaseProductLi(product);
 
@@ -76,33 +74,46 @@ const renderProductsList = (products) => {
   }
 
   // Si hay productos en el carrito
-  if (productsInCart != "") {
+  if (productsInCart.length > 0) {
     // Recorremos el array
     for (const product of productsInCart) {
-      /*
-      Obtenemos el elemento li de la lista de productos,
-      buscando con el id del li de productos en el carrito,
-      el elemento li con el atributo id igual al id del producto en el carrito
-      */
-      const liInProducts = productsListElement.querySelector(
-        `[id="${product.id}"]`
-      );
-      // Si existe
-      if (liInProducts) {
-        // Le añadimos la clase isInCart
-        liInProducts.classList.add("isInCart");
-        // Capturamos el botón
-        const btn = liInProducts.querySelector(".js_btnBuy");
-        // Le cambiamos el texto
-        if (btn) btn.textContent = "Eliminar";
-      }
+      // Llamamos a la función para cambiarle los estilos
+      setProductMarkedInList(product.id, true);
     }
+  }
+};
+
+/*
+ Marca o desmarca un producto en la lista principal según
+ si está en el carrito.
+ Recibe el id del producto y un boolean (true si queremos añadirle la clase o false si queremos quitarsela)
+ */
+const setProductMarkedInList = (productId, isInCart) => {
+  // buscamos el <li> de la lista de productos que tenga ese id
+  const liElement = productsListElement.querySelector(`[id="${productId}"]`);
+  // Si no existe, salimos
+  if (!liElement) return;
+
+  // Buscamos el botón dentro de ese <li>
+  const btn = liElement.querySelector(".js_btnBuy");
+
+  if (isInCart) {
+    // Le añadimos la clase
+    liElement.classList.add("isInCart");
+
+    // Cambiamos el texto del botón
+    btn.textContent = "Eliminar";
+  } else {
+    // Se la quitamos
+    liElement.classList.remove("isInCart");
+
+    // Cambiamos el texto del botón
+    btn.textContent = "Comprar";
   }
 };
 
 // Función para añadir elementos al carrito
 const addingCart = (ev, products) => {
-
   // Mostramos la sección del carrito
   articleCart.classList.remove("hidden");
 
@@ -138,10 +149,14 @@ const addingCart = (ev, products) => {
       // Lo añadimos al array de productos en el carrito
       productsInCart.push(productSelected);
 
+      // Llamamos a la función para añadirle la clase pasandole true
+      setProductMarkedInList(productSelectElement.id, true);
     } else {
-
       // Si devuelve su índice es que está, entonces lo borramos
       productsInCart.splice(productIndex, 1);
+
+      //Llamamos a la función para quitarle la clase pasandole false
+      setProductMarkedInList(productSelectElement.id, false);
     }
   }
 
@@ -150,29 +165,7 @@ const addingCart = (ev, products) => {
 
   // Llamamos a la función para sincronizar localStorage y la sección del carrito
   syncCartStorageAndView();
-  
-  // Llamamos a una función para cambiar lois estilos del elemento seleccionado
-  changeStyleIfIsFavorite(productSelectElement);
+
 };
 
-// Función para cambiar el estilo si está seleccionado
-const changeStyleIfIsFavorite = (productSelectElement) => {
-  // Accedemos al elemento li hijo de productsListElement por su atributo id
-  const productSelectElementInProducts = productsListElement.querySelector(
-    `[id="${productSelectElement.id}"]`
-  );
 
-  // Añadimos o quitamos la clase al elemento li(padre) para darle otros estilos
-  productSelectElementInProducts.classList.toggle("isInCart");
-
-  // Accedemos al boton
-  const btnProductSelectElement =
-    productSelectElementInProducts.querySelector(".js_btnBuy");
-
-  // Capturamos el texto y lo comparamos para cambiarle el texto dependiendo de si está seleccionado
-  if (btnProductSelectElement.textContent === "Comprar") {
-    btnProductSelectElement.textContent = "Eliminar";
-  } else {
-    btnProductSelectElement.textContent = "Comprar";
-  }
-};

@@ -128,28 +128,14 @@ const decrementProductInCart = (ev) => {
       productsInCart.splice(index, 1);
     }
 
-
     // Pintamos de nuevo la lista sin el producto eliminado
     renderCart(productsInCart);
 
     // Llamamos a la función para sincronizar localStorage y la sección del carrito
     syncCartStorageAndView();
 
-    // Quitamos la clase isInCart al producto en la lista de productos
-    // Obtenemos el elemento li en la lista de productos a traves del atributo id
-    const liInProducts = productsListElement.querySelector(
-      `[id="${productInCart.id}"]`
-    );
-
-    // Si lo encuentra
-    if (liInProducts) {
-      // Le quitamos la clase isInCart al elemento li
-      liInProducts.classList.remove("isInCart");
-      // Obtenemos su botón
-      const btn = liInProducts.querySelector(".js_btnBuy");
-      // Si lo encuentra le cambiamos el texto
-      if (btn) btn.textContent = "Comprar";
-    }
+    // Llamamos a la función para quitarle la clase porque lo hemos borrado del carrito
+    setProductMarkedInList(productInCart.id, false);
   }
 
   // Si es más que 0
@@ -196,8 +182,8 @@ const deleteElementInCart = (ev) => {
   //Comprobamos si ha obtenido el  producto
   if (productSelectedForDelete != "") {
     /*
-    Obtenemos su índice en el array del carrito de la compra,
-    através del id del producto seleccionado
+    Obtenemos su índice en el array del carrito,
+    a través del id del producto seleccionado
     */
     const productIndex = productsInCart.findIndex(
       (product) => product.id === productSelectedForDelete.id
@@ -214,8 +200,9 @@ const deleteElementInCart = (ev) => {
       // Llamamos a la función para sincronizar localStorage y la sección del carrito
       syncCartStorageAndView();
 
-      // Llamamos a la función para cambiarle el estilo de nuevo en la lista de productos
-      changeStyleIfIsFavorite(productElementClicked);
+      // Llamamos a la función para quitarle el estilo ya que no está en el carrito
+      setProductMarkedInList(idProduct, false);
+
     }
   }
 };
