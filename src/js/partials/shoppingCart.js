@@ -78,6 +78,17 @@ const renderCart = (productsInCart) => {
   }
 };
 
+// Función para limpiar o actualizar el localStorage y ocultar la seccion cel carrito si no hay productos en él
+const syncCartStorageAndView = () => {
+  if (productsInCart.length === 0) {
+    localStorage.removeItem("productsInCart");
+    articleCart.classList.add("hidden");
+  } else {
+    localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+    articleCart.classList.remove("hidden");
+  }
+};
+
 /*
 Función para buscar un elemento li, y su span de quantity
 en el carrito de la compra desde los botones de increment y decrement
@@ -117,21 +128,12 @@ const decrementProductInCart = (ev) => {
       productsInCart.splice(index, 1);
     }
 
-    // Si después de quitar un producto no hay más productos
-    if (productsInCart.length === 0) {
-      // Borramos el item en localStorage
-      localStorage.removeItem("productsInCart");
-
-      // Ocultamos la sección porque está vacia
-      articleCart.classList.add("hidden");
-      // Si se borra pero hay más productos
-    } else {
-      // Actualizamos el localStorage
-      localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
-    }
 
     // Pintamos de nuevo la lista sin el producto eliminado
     renderCart(productsInCart);
+
+    // Llamamos a la función para sincronizar localStorage y la sección del carrito
+    syncCartStorageAndView();
 
     // Quitamos la clase isInCart al producto en la lista de productos
     // Obtenemos el elemento li en la lista de productos a traves del atributo id
@@ -206,17 +208,11 @@ const deleteElementInCart = (ev) => {
       // Usamos su índice para borrralo
       productsInCart.splice(productIndex, 1);
 
-      // Si el array de productos en el carrito se queda vacio borramos el item de localStorage
-      if (productsInCart.length === 0) {
-        localStorage.removeItem("productsInCart");
-        articleCart.classList.add("hidden");
-      } else {
-        // Si aún quedan productos el el array del carrito, actualizamos el localStorage
-        localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
-      }
-
       // Volvemos a pintar la lista del carrito con el nuevo array
       renderCart(productsInCart);
+
+      // Llamamos a la función para sincronizar localStorage y la sección del carrito
+      syncCartStorageAndView();
 
       // Llamamos a la función para cambiarle el estilo de nuevo en la lista de productos
       changeStyleIfIsFavorite(productElementClicked);
@@ -229,10 +225,8 @@ const deleteAllInCart = (ev) => {
   // Dejamos el array de productos en el carrito vacío
   productsInCart = [];
 
-  // Borramos los productos del localStorage
-  localStorage.removeItem("productsInCart");
-
-  articleCart.classList.add("hidden");
+  // Llamamos a la función para sincronizar localStorage y la sección del carrito
+  syncCartStorageAndView();
 
   // Capturamos todos los elementos de la lista de productos que tengan la clase isInCart
   const productsMarked = productsListElement.querySelectorAll(".isInCart");

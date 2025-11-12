@@ -137,29 +137,20 @@ const addingCart = (ev, products) => {
 
       // Lo añadimos al array de productos en el carrito
       productsInCart.push(productSelected);
-      console.log('productos en el carro con la propiedad  quantity', productsInCart);
-      // Añadimos el array a localStorage pasandolo a string
-      localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
 
     } else {
 
       // Si devuelve su índice es que está, entonces lo borramos
       productsInCart.splice(productIndex, 1);
-
-      // Si el array de productos en el carrito se queda vacio borramos el item de localStorage
-      if (productsInCart.length === 0) {
-        localStorage.removeItem("productsInCart");
-        articleCart.classList.add('hidden');
-      } else {
-        // Si aún quedan productos el el array del carrito, actualizamos el localStorage
-        localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
-      }
     }
   }
 
   // Llamamos a la funcion para que los pinte en la lista de carrito
   renderCart(productsInCart);
 
+  // Llamamos a la función para sincronizar localStorage y la sección del carrito
+  syncCartStorageAndView();
+  
   // Llamamos a una función para cambiar lois estilos del elemento seleccionado
   changeStyleIfIsFavorite(productSelectElement);
 };
