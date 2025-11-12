@@ -19,11 +19,15 @@ const renderProductsList = (products) => {
     // Creamos el elemento img
     const imgElement = document.createElement("img");
     imgElement.classList.add("articleList__list--li--containerImg--img");
-    imgElement.setAttribute("src", "https://placehold.co/150x200");
+    if(product.image != undefined){
+      imgElement.setAttribute("src", product.image);
+    }
+    else{
+      imgElement.setAttribute("src", "https://placehold.co/150x200");
+    }
 
     // Añadimos la imagen a su contenedor
     divElement.appendChild(imgElement);
-
     // Creamos el elemento del titulo
     const h3Element = document.createElement("h3");
     h3Element.classList.add("articleList__list--li--title");
