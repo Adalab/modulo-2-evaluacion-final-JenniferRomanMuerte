@@ -1,4 +1,5 @@
 @use "../../core/variables" as var;
+@use "../../core/mixins" as mix;
 
 .articleCart {
   grid-area: cart;
@@ -18,10 +19,7 @@
     border: none;
     transition: transform 0.2s ease;
     &:hover {
-      transform: scale(1.05) translateY(-5px);
-      background-color: var.$color_secondary;
-      color: var.$color_delete;
-      border: 3px solid var.$color_delete;
+      @include mix.hover(var.$color_delete,var.$color_secondary);
     }
   }
 }

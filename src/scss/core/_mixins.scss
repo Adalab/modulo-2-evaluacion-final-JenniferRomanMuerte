@@ -1,5 +1,26 @@
 @use "./variables" as var;
 
+
+@mixin btn(
+  $background: var.$color_primary,
+  $color: var.$color_secondary,
+  $border: 1px solid var.$color_text
+) {
+  background-color: $background;
+  color: $color;
+  border: $border;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+@mixin hover($background, $color) {
+  transform: scale(1.05) translateY(-5px);
+  background-color: $color;
+  color: $background;
+  border: 3px solid $background;
+}
+
 @mixin ul() {
   display: flex;
   gap: 2rem;
@@ -42,9 +63,7 @@
       bottom: 1rem;
       right: 1rem;
       &:hover {
-        background-color: var.$color_secondary;
-        color: var.$color_delete;
-        border: 3px solid var.$color_delete;
+        @include hover(var.$color_delete, var.$color_secondary);
       }
     }
     &--title {
@@ -56,21 +75,12 @@
       font-size: 1.5rem;
     }
     &--btn {
-      padding: 1rem;
-      padding-inline: 4rem;
-      background-color: var.$color_primary;
-      color: var.$color_secondary;
+      padding: 1rem 4rem;
       font-weight: var.$font-weight_title;
-      border-radius: 5px;
-      border: 1px solid var.$color_text;
       margin-top: auto;
-      cursor: pointer;
-      transition: transform 0.2s ease;
+      @include btn();
       &:hover {
-        transform: scale(1.05) translateY(-5px);
-        background-color: var.$color_secondary;
-        color: var.$color_primary;
-        border: 3px solid var.$color_primary;
+        @include hover(var.$color_primary, var.$color_secondary);
       }
     }
     &--divQuantity {
@@ -79,15 +89,10 @@
       align-items: center;
       &--btn {
         padding: 0.5rem;
-        background-color: var.$color_primary;
-        color: var.$color_secondary;
         font-weight: var.$font-weight_title;
-        border-radius: 5px;
-        border: 1px solid var.$color_text;
+        @include btn();
         &:hover {
-          background-color: var.$color_secondary;
-          color: var.$color_primary;
-          border: 3px solid var.$color_primary;
+          @include hover(var.$color_primary,var.$color_secondary);
         }
       }
       &--span {
@@ -96,3 +101,5 @@
     }
   }
 }
+
+
