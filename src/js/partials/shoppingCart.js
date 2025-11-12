@@ -42,24 +42,85 @@ const renderCart = (productsInCart) => {
     const deleteElement = document.createElement("div");
     deleteElement.classList.add("articleList__list--li--div");
     deleteElement.classList.add("js_divDelete");
-
     deleteElement.textContent = "X";
+
+    // Creamos un div para la gestion del quantity
+    const quantityElement = document.createElement("div");
+    quantityElement.classList.add("articleList__list--li--divQuantity");
+
+    //Creamos un botón para decrementar la cantidad
+    const decrementQuantity = document.createElement('button');
+    decrementQuantity.classList.add("articleList__list--li--divQuantity--btn", "js_btnDec");
+    decrementQuantity.textContent = '-';
+
+    //Creamos un span para mostrar la cantidad
+    const quantity = document.createElement('span');
+    quantity.classList.add("articleList__list--li--divQuantity--span");
+    quantity.textContent = product.quantity;
+
+    //Creamos un botón para incrementar la cantidad
+    const incrementQuantity = document.createElement('button');
+    incrementQuantity.classList.add("articleList__list--li--divQuantity--btn", "js_btnInc");
+    incrementQuantity.textContent = '+';
+
+    // Añadimos los botones y el span al div
+    quantityElement.appendChild(decrementQuantity);
+    quantityElement.appendChild(quantity);
+    quantityElement.appendChild(incrementQuantity);
+
 
     // Añadimos los elementos al li
     liElement.appendChild(divElement);
     liElement.appendChild(h3Element);
     liElement.appendChild(spanElement);
     liElement.appendChild(deleteElement);
+    liElement.appendChild(quantityElement);
 
     // Añadimos los elementos  li al ul
     cartListElement.appendChild(liElement);
   }
 
+  // Capturamos todos los elementos de la X
   const divsDelete = document.querySelectorAll(".js_divDelete");
+  // Los recorremos y les asignamos un evento con una función anónima
   for (const divDelete of divsDelete) {
     divDelete.addEventListener("click", deleteElementInCart);
   }
+
+  // Capturamos todos los elementos del btnDecrement
+  const btnsDecrement = cartListElement.querySelectorAll(".js_btnDec");
+   // Los recorremos y les asignamos un evento con una función anónima
+  for (const btnDecrement of btnsDecrement) {
+    btnDecrement.addEventListener("click", decrementProductInCart);
+  }
+
+   // Capturamos todos los elementos del btnIncrement
+  const btnsIncrement = cartListElement.querySelectorAll(".js_btnInc");
+   // Los recorremos y les asignamos un evento con una función anónima
+  for (const btnIncrement of btnsIncrement) {
+    btnIncrement.addEventListener("click", incrementProductInCart);
+  }
+
 };
+
+// Función para buscar un elemento li en el carrito de la compra desde los botones de increment y decrement
+const searchProductInCartForChangeQuantity = (ev) =>{
+  const productLiElement = (ev.currentTarget).closest('li');
+  return productsInCart.find(
+    (product) => product.id === Number(productLiElement.id)
+  );
+}
+
+const decrementProductInCart = (ev) =>{
+  const productSelected = searchProductInCartForChangeQuantity(ev);
+  productSelected.quantity--;
+  console.log(productSelected.quantity);
+}
+const incrementProductInCart = (ev) =>{
+  const productSelected = searchProductInCartForChangeQuantity(ev);
+  productSelected.quantity++;
+  console.log(productSelected.quantity);
+}
 
 // Funcion para borrar productos desde el producto en el carrito
 const deleteElementInCart = (ev) => {

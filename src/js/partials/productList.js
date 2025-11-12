@@ -93,7 +93,7 @@ const addingCart = (ev, products) => {
 
   // Mostramos la sección del carrito
   articleCart.classList.remove("hidden");
-  
+
   // Accedemos al elemento clicado
   const btnClicked = ev.currentTarget;
 
@@ -120,16 +120,24 @@ const addingCart = (ev, products) => {
 
     // Si devuelve -1 es que no está, entonces lo añadimos
     if (productIndex === -1) {
+      // Le añadimos la propiedad quantity con valor 1
+      productSelected.quantity = 1;
+
+      // Lo añadimos al array de productos en el carrito
       productsInCart.push(productSelected);
+      console.log('productos en el carro con la propiedad  quantity', productsInCart);
       // Añadimos el array a localStorage pasandolo a string
       localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+
     } else {
+
       // Si devuelve su índice es que está, entonces lo borramos
       productsInCart.splice(productIndex, 1);
 
       // Si el array de productos en el carrito se queda vacio borramos el item de localStorage
       if (productsInCart.length === 0) {
         localStorage.removeItem("productsInCart");
+        articleCart.classList.add('hidden');
       } else {
         // Si aún quedan productos el el array del carrito, actualizamos el localStorage
         localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
