@@ -1,4 +1,6 @@
 const cartListElement = document.querySelector(".js_cartList");
+const buttonDeleteAll = document.querySelector('.js_buttonDeleteAll');
+
 
 // Función para pintar los productos del carrito
 const renderCart = (productsInCart) => {
@@ -56,8 +58,12 @@ const renderCart = (productsInCart) => {
   }
 };
 
+// Funcion para borrar productos desde el producto en el carrito
 const deleteElementInCart = (ev) => {
+  // Accedemos al div con la X clicada
   const divElementClicked = ev.currentTarget;
+
+  // Accedemos al elemento padre de éste que es el li
   const productElementClicked = divElementClicked.parentNode;
 
   // Recuperamos el id del elemento li seleccioando
@@ -67,7 +73,7 @@ const deleteElementInCart = (ev) => {
   const productSelectedForDelete = productsInCart.find(
     (product) => product.id === Number(idProduct)
   );
-   
+
   //Comprobamos si ha obtenido el  producto
   if (productSelectedForDelete != "") {
     /*
@@ -88,12 +94,40 @@ const deleteElementInCart = (ev) => {
       // Volvemos a pintar la lista del carrito con el nuevo array
       renderCart(productsInCart);
 
-      // Llamamos a la función para cambiarle el estilol de nuevo en la lista de productos
+      // Llamamos a la función para cambiarle el estilo de nuevo en la lista de productos
       changeStyleIfIsFavorite(productElementClicked);
     }
   }
 
 };
+
+// Función para borrar todos los productos del carrito
+const deleteAllInCart = (ev) =>{
+
+  // Dejamos el array de productos en el carrito vacío
+  productsInCart = [];
+  // Llamamos a pintar de nuevo la lista del carrito
+  renderCart(productsInCart);
+  // Borramos los productos del localStorage
+  localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+
+  // Capturamos todos los elementos de la lista de productos que tengan la clase isInCart
+  const productsMarked = productsListElement.querySelectorAll(".isInCart");
+
+  // Recorremos la lista de estos elementos
+  for(const productMarked of productsMarked){
+
+    // Le quitamos la clase al elemento li
+    productMarked.classList.remove("isInCart");
+    // Capturamos el botón
+    const btn = productMarked.querySelector(".js_btnBuy");
+    // Si existe le cambiamos el texto
+    if (btn) btn.textContent = "Comprar";
+  }
+
+}
+
+buttonDeleteAll.addEventListener('click', deleteAllInCart);
 
 // Si existe el item productsInCart en localStorage
 if (localStorage.getItem("productsInCart")) {
