@@ -6,6 +6,7 @@
   flex-wrap: wrap;
   padding: 5rem;
   &--li {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,6 +23,16 @@
         background-size: cover;
         background-repeat: no-repeat;
       }
+    }
+    &--div{
+      position: absolute;
+      border: 1px solid var.$color_text;
+      padding: 0.5rem;
+      border-radius: 5px;
+      background-color: var.$color_delete;
+      color: var.$color_secondary;
+      top: 1rem;
+      right: 1rem;
     }
     &--title {
       font-size: 1.3rem;

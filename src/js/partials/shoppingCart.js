@@ -1,9 +1,7 @@
-
 const cartListElement = document.querySelector(".js_cartList");
 
-
 // Función para pintar los productos del carrito
-const renderCart = (productsInCart) =>{
+const renderCart = (productsInCart) => {
   // Vaciamos el elemento de la lista de productos en el carrito
   cartListElement.innerHTML = "";
   // Recorremos el array de productos en el carrito
@@ -35,22 +33,75 @@ const renderCart = (productsInCart) =>{
     spanElement.classList.add("articleList__list--li--span");
     spanElement.textContent = `${product.price} €`;
 
+    // Creamos un div para la x de eliminar
+    const deleteElement = document.createElement("div");
+    deleteElement.classList.add("articleList__list--li--div");
+    deleteElement.classList.add("js_divDelete");
+
+    deleteElement.textContent = "X";
+
     // Añadimos los elementos al li
     liElement.appendChild(divElement);
     liElement.appendChild(h3Element);
     liElement.appendChild(spanElement);
-
+    liElement.appendChild(deleteElement);
 
     // Añadimos los elementos  li al ul
     cartListElement.appendChild(liElement);
   }
-}
+
+  const divsDelete = document.querySelectorAll(".js_divDelete");
+  for (const divDelete of divsDelete) {
+    divDelete.addEventListener("click", deleteElementInCart);
+  }
+};
+
+const deleteElementInCart = (ev) => {
+  const divElementClicked = ev.currentTarget;
+  const productElementClicked = divElementClicked.parentNode;
+
+  // Recuperamos el id del elemento li seleccioando
+  const idProduct = productElementClicked.id;
+
+  // Buscamos el producto en el array de productos en el carrito con el id que tenemos del li
+  const productSelectedForDelete = productsInCart.find(
+    (product) => product.id === Number(idProduct)
+  );
+   
+  //Comprobamos si ha obtenido el  producto
+  if (productSelectedForDelete != "") {
+    /*
+    Obtenemos su índice en el array del carrito de la compra,
+    através del id del producto seleccionado
+    */
+    const productIndex = productsInCart.findIndex(
+      (product) => product.id === productSelectedForDelete.id
+    );
+
+    // Si es distinto de -1(Sería que no lo encuentra) entonces lo borramos
+    if(productIndex !== -1){
+     // Usamos su índice para borrralo
+      productsInCart.splice(productIndex,1);
+      // Actualizamos el array a localStorage pasandolo a string
+      localStorage.setItem('productsInCart',JSON.stringify(productsInCart));
+
+      // Volvemos a pintar la lista del carrito con el nuevo array
+      renderCart(productsInCart);
+
+      // Llamamos a la función para cambiarle el estilol de nuevo en la lista de productos
+      changeStyleIfIsFavorite(productElementClicked);
+    }
+  }
+
+};
 
 // Si existe el item productsInCart en localStorage
-if(localStorage.getItem("productsInCart")){
+if (localStorage.getItem("productsInCart")) {
   /*
   Recuperamos su valor, lo pasamos a Json,
   y llamamos a la función para pintar el carrito
   */
   renderCart(JSON.parse(localStorage.getItem("productsInCart")));
+  // Guardamos los datos que recuperamos del localStorage en el array de productos en el carrito
+  productsInCart = JSON.parse(localStorage.getItem("productsInCart"));
 }
