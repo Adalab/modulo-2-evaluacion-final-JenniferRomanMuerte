@@ -49,25 +49,30 @@ const renderCart = (productsInCart) => {
     quantityElement.classList.add("articleList__list--li--divQuantity");
 
     //Creamos un botón para decrementar la cantidad
-    const decrementQuantity = document.createElement('button');
-    decrementQuantity.classList.add("articleList__list--li--divQuantity--btn", "js_btnDec");
-    decrementQuantity.textContent = '-';
+    const decrementQuantity = document.createElement("button");
+    decrementQuantity.classList.add(
+      "articleList__list--li--divQuantity--btn",
+      "js_btnDec"
+    );
+    decrementQuantity.textContent = "-";
 
     //Creamos un span para mostrar la cantidad
-    const quantity = document.createElement('span');
+    const quantity = document.createElement("span");
     quantity.classList.add("articleList__list--li--divQuantity--span");
     quantity.textContent = product.quantity;
 
     //Creamos un botón para incrementar la cantidad
-    const incrementQuantity = document.createElement('button');
-    incrementQuantity.classList.add("articleList__list--li--divQuantity--btn", "js_btnInc");
-    incrementQuantity.textContent = '+';
+    const incrementQuantity = document.createElement("button");
+    incrementQuantity.classList.add(
+      "articleList__list--li--divQuantity--btn",
+      "js_btnInc"
+    );
+    incrementQuantity.textContent = "+";
 
     // Añadimos los botones y el span al div
     quantityElement.appendChild(decrementQuantity);
     quantityElement.appendChild(quantity);
     quantityElement.appendChild(incrementQuantity);
-
 
     // Añadimos los elementos al li
     liElement.appendChild(divElement);
@@ -89,38 +94,115 @@ const renderCart = (productsInCart) => {
 
   // Capturamos todos los elementos del btnDecrement
   const btnsDecrement = cartListElement.querySelectorAll(".js_btnDec");
-   // Los recorremos y les asignamos un evento con una función anónima
+  // Los recorremos y les asignamos un evento con una función anónima
   for (const btnDecrement of btnsDecrement) {
     btnDecrement.addEventListener("click", decrementProductInCart);
   }
 
-   // Capturamos todos los elementos del btnIncrement
+  // Capturamos todos los elementos del btnIncrement
   const btnsIncrement = cartListElement.querySelectorAll(".js_btnInc");
-   // Los recorremos y les asignamos un evento con una función anónima
+  // Los recorremos y les asignamos un evento con una función anónima
   for (const btnIncrement of btnsIncrement) {
     btnIncrement.addEventListener("click", incrementProductInCart);
   }
-
 };
 
-// Función para buscar un elemento li en el carrito de la compra desde los botones de increment y decrement
-const searchProductInCartForChangeQuantity = (ev) =>{
-  const productLiElement = (ev.currentTarget).closest('li');
-  return productsInCart.find(
+/*
+Función para buscar un elemento li, y su span de quantity
+en el carrito de la compra desde los botones de increment y decrement
+*/
+const searchProductInCartForChangeQuantity = (ev) => {
+  // Buscamos elemento padre (li) del elemento seleccionado
+  const productLiElement = ev.currentTarget.closest("li");
+  // Buscamos el elemento span que tiene la cantidad dentro de ese elemento li
+  const spanQuantity = productLiElement.querySelector(
+    ".articleList__list--li--divQuantity--span"
+  );
+  // Buscamos el objeto dentro del array de productsInCart con el id del li
+  const productInCart = productsInCart.find(
     (product) => product.id === Number(productLiElement.id)
   );
-}
+  // Devolvemos un objeto con el objeto del producto y el elemento li
+  return { productInCart, spanQuantity };
+};
 
-const decrementProductInCart = (ev) =>{
-  const productSelected = searchProductInCartForChangeQuantity(ev);
-  productSelected.quantity--;
-  console.log(productSelected.quantity);
-}
-const incrementProductInCart = (ev) =>{
-  const productSelected = searchProductInCartForChangeQuantity(ev);
-  productSelected.quantity++;
-  console.log(productSelected.quantity);
-}
+const decrementProductInCart = (ev) => {
+  // Llamamos a la función de búsqueda para obtener los datos necesarios para gestionar el quantity
+  const { productInCart, spanQuantity } =
+    searchProductInCartForChangeQuantity(ev);
+
+  // Bajamos 1 al la propiedad quantity del producto en el array del carrito
+  productInCart.quantity--;
+
+  // Si la cantidad llega a 0 elimamos el producto
+  if (productInCart.quantity === 0) {
+    // Buscamos su posición en el array del carrito
+    const index = productsInCart.findIndex(
+      (product) => product.id === productInCart.id
+    );
+
+    // Si lo encuentra (devuelve -1), lo eliminamos del array
+    if (index !== -1) {
+      productsInCart.splice(index, 1);
+    }
+
+    // Si después de quitar un producto no hay más productos
+    if (productsInCart.length === 0) {
+      // Borramos el item en localStorage
+      localStorage.removeItem("productsInCart");
+
+      // Ocultamos la sección porque está vacia
+      articleCart.classList.add("hidden");
+      // Si se borra pero hay más productos
+    } else {
+      // Actualizamos el localStorage
+      localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+    }
+
+    // Pintamos de nuevo la lista sin el producto eliminado
+    renderCart(productsInCart);
+
+    // Quitamos la clase isInCart al producto en la lista de productos
+    // Obtenemos el elemento li en la lista de productos a traves del atributo id
+    const liInProducts = productsListElement.querySelector(
+      `[id="${productInCart.id}"]`
+    );
+
+    // Si lo encuentra
+    if (liInProducts) {
+      // Le quitamos la clase isInCart al elemento li
+      liInProducts.classList.remove("isInCart");
+      // Obtenemos su botón
+      const btn = liInProducts.querySelector(".js_btnBuy");
+      // Si lo encuentra le cambiamos el texto
+      if (btn) btn.textContent = "Comprar";
+    }
+  }
+
+  // Si es más que 0
+  else {
+    // Actualizamos el texto del span con el valor del quantity del producto
+    spanQuantity.textContent = productInCart.quantity;
+
+    // Actualizamos el localStorage
+    localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+  }
+};
+
+const incrementProductInCart = (ev) => {
+  // Llamamos a la función de búsqueda para obtener los datos necesarios para gestionar el quantity
+  const { productInCart, spanQuantity } =
+    searchProductInCartForChangeQuantity(ev);
+
+  // Subimos 1 al la propiedad quantity del producto en el array del carrito
+  productInCart.quantity++;
+
+  // Actualizamos el texto del span con el valor del quantity del producto
+  spanQuantity.textContent = productInCart.quantity;
+
+  // Actualizamos el localStorage
+  localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+};
 
 // Funcion para borrar productos desde el producto en el carrito
 const deleteElementInCart = (ev) => {
@@ -156,7 +238,7 @@ const deleteElementInCart = (ev) => {
       // Si el array de productos en el carrito se queda vacio borramos el item de localStorage
       if (productsInCart.length === 0) {
         localStorage.removeItem("productsInCart");
-        articleCart.classList.add('hidden');
+        articleCart.classList.add("hidden");
       } else {
         // Si aún quedan productos el el array del carrito, actualizamos el localStorage
         localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
@@ -173,14 +255,13 @@ const deleteElementInCart = (ev) => {
 
 // Función para borrar todos los productos del carrito
 const deleteAllInCart = (ev) => {
-
   // Dejamos el array de productos en el carrito vacío
   productsInCart = [];
 
   // Borramos los productos del localStorage
   localStorage.removeItem("productsInCart");
 
-   articleCart.classList.add("hidden");
+  articleCart.classList.add("hidden");
 
   // Capturamos todos los elementos de la lista de productos que tengan la clase isInCart
   const productsMarked = productsListElement.querySelectorAll(".isInCart");
@@ -197,7 +278,6 @@ const deleteAllInCart = (ev) => {
 };
 
 buttonDeleteAll.addEventListener("click", deleteAllInCart);
-
 
 // Si existe el item productsInCart en localStorage
 if (localStorage.getItem("productsInCart")) {
