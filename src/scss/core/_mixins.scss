@@ -15,7 +15,7 @@
 }
 
 @mixin hover($background, $color) {
-  transform: scale(1.05) translateY(-5px);
+  transform: scale(1.05);
   background-color: $color;
   color: $background;
   border: 3px solid $background;
@@ -25,7 +25,7 @@
   display: flex;
   gap: 2rem;
   flex-wrap: wrap;
-  padding: 5rem;
+  padding: 2.5rem;
   justify-content: center;
   &--li {
     position: relative;
@@ -53,12 +53,11 @@
       }
     }
     &--div {
-      position: absolute;
-      border: 1px solid var.$color_text;
+      @include btn(var.$color_delete,
+      $color: var.$color_secondary,
+      $border: 1px solid var.$color_text);
       padding: 0.5rem;
-      border-radius: 5px;
-      background-color: var.$color_delete;
-      color: var.$color_secondary;
+      position: absolute;
       font-weight: var.$font-weight_title;
       bottom: 1rem;
       right: 1rem;
@@ -81,6 +80,7 @@
       @include btn();
       &:hover {
         @include hover(var.$color_primary, var.$color_secondary);
+        transform: translateY(-5px);
       }
     }
     &--divQuantity {

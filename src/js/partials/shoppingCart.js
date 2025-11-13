@@ -1,6 +1,7 @@
 const articleCart = document.querySelector(".articleCart");
 const cartListElement = document.querySelector(".js_cartList");
 const buttonDeleteAll = document.querySelector(".js_buttonDeleteAll");
+const main = document.querySelector(".main");
 
 // Función para pintar los productos del carrito
 const renderCart = (productsInCart) => {
@@ -8,7 +9,6 @@ const renderCart = (productsInCart) => {
   cartListElement.innerHTML = "";
   // Recorremos el array de productos en el carrito
   for (const product of productsInCart) {
-
     // Llamamos a la función que nos crea los elementos comunes de los li
     const liElement = createBaseProductLi(product);
 
@@ -57,7 +57,7 @@ const renderCart = (productsInCart) => {
   }
 
   // Capturamos todos los elementos de la X
-  const divsDelete = document.querySelectorAll(".js_divDelete");
+  const divsDelete = cartListElement.querySelectorAll(".js_divDelete");
   // Los recorremos y les asignamos un evento con una función anónima
   for (const divDelete of divsDelete) {
     divDelete.addEventListener("click", deleteElementInCart);
@@ -83,9 +83,11 @@ const syncCartStorageAndView = () => {
   if (productsInCart.length === 0) {
     localStorage.removeItem("productsInCart");
     articleCart.classList.add("hidden");
+    main.classList.add("noCart");
   } else {
     localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
     articleCart.classList.remove("hidden");
+    main.classList.remove("noCart");
   }
 };
 
@@ -143,8 +145,8 @@ const decrementProductInCart = (ev) => {
     // Actualizamos el texto del span con el valor del quantity del producto
     spanQuantity.textContent = productInCart.quantity;
 
-    // Actualizamos el localStorage
-    localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+    // Actualizamos el localStorage y vista
+    syncCartStorageAndView();
   }
 };
 
@@ -159,8 +161,8 @@ const incrementProductInCart = (ev) => {
   // Actualizamos el texto del span con el valor del quantity del producto
   spanQuantity.textContent = productInCart.quantity;
 
-  // Actualizamos el localStorage
-  localStorage.setItem("productsInCart", JSON.stringify(productsInCart));
+  // Actualizamos el localStorage y vista
+  syncCartStorageAndView();
 };
 
 // Funcion para borrar productos desde el producto en el carrito
@@ -180,7 +182,7 @@ const deleteElementInCart = (ev) => {
   );
 
   //Comprobamos si ha obtenido el  producto
-  if (productSelectedForDelete != "") {
+  if (productSelectedForDelete) {
     /*
     Obtenemos su índice en el array del carrito,
     a través del id del producto seleccionado
@@ -202,7 +204,6 @@ const deleteElementInCart = (ev) => {
 
       // Llamamos a la función para quitarle el estilo ya que no está en el carrito
       setProductMarkedInList(idProduct, false);
-
     }
   }
 };
@@ -212,7 +213,10 @@ const deleteAllInCart = (ev) => {
   // Dejamos el array de productos en el carrito vacío
   productsInCart = [];
 
-  // Llamamos a la función para sincronizar localStorage y la sección del carrito
+  // Vaciamos el elemento de la lista del carrito
+  cartListElement.innerHTML = "";
+
+  // Llamamos a la función para sincronizar localStorage y la vista
   syncCartStorageAndView();
 
   // Capturamos todos los elementos de la lista de productos que tengan la clase isInCart
@@ -233,13 +237,20 @@ buttonDeleteAll.addEventListener("click", deleteAllInCart);
 
 // Si existe el item productsInCart en localStorage
 if (localStorage.getItem("productsInCart")) {
+  // Guardamos los datos que recuperamos del localStorage en el array de productos en el carrito
+  productsInCart = JSON.parse(localStorage.getItem("productsInCart"));
+
   /*
   Recuperamos su valor, lo pasamos a Json,
   y llamamos a la función para pintar el carrito
   */
   renderCart(JSON.parse(localStorage.getItem("productsInCart")));
-  // Guardamos los datos que recuperamos del localStorage en el array de productos en el carrito
-  productsInCart = JSON.parse(localStorage.getItem("productsInCart"));
+
+  // Actualizamos localStorage y vista
+  syncCartStorageAndView();
 } else {
-  articleCart.classList.add("hidden");
+  // Si no hay carrito en el localStorage el array de productos en el carrito se vacia
+  productsInCart = [];
+  // Actualizamos
+  syncCartStorageAndView();
 }

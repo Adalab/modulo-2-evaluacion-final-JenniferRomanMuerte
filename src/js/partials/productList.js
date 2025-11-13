@@ -81,6 +81,7 @@ const renderProductsList = (products) => {
       setProductMarkedInList(product.id, true);
     }
   }
+  syncCartStorageAndView();
 };
 
 /*
@@ -114,9 +115,7 @@ const setProductMarkedInList = (productId, isInCart) => {
 
 // Función para añadir elementos al carrito
 const addingCart = (ev, products) => {
-  // Mostramos la sección del carrito
-  articleCart.classList.remove("hidden");
-
+  
   // Accedemos al elemento clicado
   const btnClicked = ev.currentTarget;
 

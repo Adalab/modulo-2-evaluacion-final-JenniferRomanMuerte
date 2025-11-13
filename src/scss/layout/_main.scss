@@ -1,11 +1,18 @@
 @use '../core/variables' as var;
 .main{
   display: grid;
-  grid-template-columns: 2fr;
+  grid-template-columns: 36rem 1fr;
   grid-template-areas:
   'search search'
   'cart products';
-  justify-content: center;
-  align-content: center;
+  justify-items: center;
   background-color: var.$color_background;
+  padding-bottom: 4rem;
+}
+
+.main.noCart{
+  grid-template-columns: 1fr;
+  grid-template-areas:
+  'search'
+  'products';
 }

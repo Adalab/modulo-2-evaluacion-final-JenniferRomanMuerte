@@ -5,7 +5,7 @@ const btnSearch = document.querySelector('.js_searchBtn');
 // Función para buscar productos
 const searchProducts = (ev) =>{
   // Capturamos el valor que se introduce en el input
-  const textInputSearch = inputSearch.value;
+  const textInputSearch = inputSearch.value.trim().toLowerCase();
 
   /*
   Obtenemos un nuevo array filtrando el array de productos,
@@ -13,7 +13,7 @@ const searchProducts = (ev) =>{
   */
   const productsFilter = products.filter((productFilter) => productFilter.title.includes(textInputSearch));
 
-  // Vaciamos la lista
+  // Vaciamos la lista antes de pintarla de nuevo
   productsListElement.innerHTML = "";
 
   // Llamamos a la función para pintarlos con el array que contiene los productos filtrados
@@ -25,6 +25,9 @@ const searchProducts = (ev) =>{
     productsListElement.innerHTML = "";
     // Llamamos a pintar el array con todos los productos
     renderProductsList(products);
+    
+    // Sincronizamos la vista
+    syncCartStorageAndView();
   }
 }
 

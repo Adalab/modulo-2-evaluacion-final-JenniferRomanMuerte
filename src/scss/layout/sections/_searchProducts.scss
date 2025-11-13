@@ -23,12 +23,8 @@
     font-weight: var.$font-weight_title;
     padding: 0.6rem 2rem;
     @include mix.btn();
-      transition: transform 0.2s ease;
       &:hover {
-        transform: scale(1.05) translateY(-5px);
-        background-color: var.$color_secondary;
-        color: var.$color_primary;
-        border: 3px solid var.$color_primary;
+        @include mix.hover(var.$color_primary, var.$color_secondary);
       }
   }
 

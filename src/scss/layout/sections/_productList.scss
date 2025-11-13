@@ -6,35 +6,35 @@
   box-shadow: var.$box-shadow_sections;
   background-color: var.$card-color_background;
   border-radius: 5px;
-  width: 95%;
+  max-width: 95%;
   margin: 0 auto;
   &__subtitle {
     text-align: center;
     margin-top: 4rem;
     font-size: 3rem;
-    color:var.$color_primary;
-    text-shadow: 2px 2px 4px rgba(0,0,0,.3);
+    color: var.$color_primary;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
   &__list {
     @include mix.ul();
-     // Si está en el carrito le añadimos esta clase para modificar los estilos
+    // Si está en el carrito le añadimos esta clase para modificar los estilos
     &--li.isInCart {
       background-color: var.$color_text;
       color: var.$color_secondary;
       border: 1px solid var.$color_primary;
-
     }
     // Y si el li tiene esa clase cambiamos el estilo en la clase del btn
     &--li.isInCart .articleList__list--li--btn {
-      background-color: var.$color_delete;
-      border: 1px solid var.$color_secondary;
-      transition: transform 0.2s ease;
-       &:hover{
+      @include mix.btn(
+        var.$color_delete,
+        var.$color_secondary,
+        1px solid var.$color_secondary
+      );
+
+      &:hover {
         @include mix.hover(var.$color_delete, var.$color_secondary);
+        transform: translateY(-5px);
       }
     }
   }
 }
-
-
-

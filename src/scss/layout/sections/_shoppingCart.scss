@@ -8,18 +8,22 @@
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   margin-inline: 3rem;
+  padding-bottom: 4rem;
   &__btnDeleteAll {
     margin: 0 auto;
     width: 60%;
     padding-block: 1rem;
-    background-color: var.$color_delete;
-    color: var.$color_secondary;
-    border-radius: 5px;
-    border: none;
-    transition: transform 0.2s ease;
+    @include mix.btn(
+        var.$color_delete,
+        var.$color_secondary,
+        1px solid var.$color_secondary
+      );
+      font-weight: var.$font-weight_title;
     &:hover {
       @include mix.hover(var.$color_delete,var.$color_secondary);
+      transform:  translateY(-5px);
     }
   }
 }
