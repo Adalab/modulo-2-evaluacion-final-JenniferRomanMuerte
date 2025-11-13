@@ -1,48 +1,159 @@
-// ...existing code...
+🌟 AdaStore — Mini tienda online
+<p align="center"> <img src="public/images/AdaStore.png" width="500" alt="AdaStore preview"> </p>
+🛍️ Descripción
 
-# AdaStore
+AdaStore es una tienda online demostrativa donde puedes:
 
-![AdaStore](public/images/AdaStore.png)
+Ver productos con imagen, título y precio
 
-Descripción
-- AdaStore es una pequeña tienda online demostrativa. Permite ver una lista de productos, buscarlos, añadirlos a una cesta y gestionar la compra de forma sencilla desde la interfaz.
+Buscarlos mediante un cuadro de búsqueda
 
-Funcionalidades principales
-- Listado de productos con imagen, título, precio y botón para añadir al carrito.
-- Búsqueda en tiempo real: filtra los productos según el texto introducido.
-- Carrito de compra:
-  - Añadir productos, aumentar o disminuir cantidades y eliminar elementos, o vaciar el carrito.
-  - El contenido del carrito se guarda en localStorage para persistir entre recargas del navegador.
-- Indicadores visuales en la lista de productos para los artículos que ya están en la cesta.
+Añadirlos al carrito
 
-Partición del HTML y partials
-- El HTML está dividido en plantillas parciales para facilitar su organización:
-  - header.html — cabecera y navegación.
-  - footer.html — pie de página.
-  - main.html — estructura principal donde se insertan las secciones.
-  - sections/productList.html — bloque donde se renderiza el listado de productos.
-  - sections/searchProducts.html — bloque con el formulario/campo de búsqueda.
-  - sections/shoppingCart.html — bloque con la vista del carrito.
-- Estas partials se combinan para componer la página completa, facilitando la lectura y el mantenimiento.
+Gestionar cantidades
 
-Estructura del JavaScript
-- main.js — punto de entrada: carga datos y coordina la inicialización de las secciones.
-- partials/productList.js — funciones para renderizar la lista y los elementos individuales, marcar productos ya añadidos y manejar la acción de añadir al carrito.
-- partials/searchProducts.js — lógica de filtrado y eventos del campo de búsqueda.
-- partials/shoppingCart.js — gestión del carrito: render, sincronización con localStorage, incremento/decremento y eliminación de productos.
+Mantener el carrito guardado entre recargas gracias a localStorage
 
-SCSS: variables y mixins
-- El proyecto usa SCSS modular: hay ficheros de variables y mixins reutilizables.
-  - _variables.scss — contiene colores, tipografías y valores reutilizables.
-  - _mixins.scss — mixins para reutilización de estilos y pequeñas utilidades.
-- La organización en módulos permite mantener estilos claros por componentes (header, secciones, carrito, listado).
+Es un proyecto perfecto para practicar DOM, eventos, filtros, render dinámico y manejo de datos.
 
-Persistencia del carrito
-- El carrito se sincroniza con localStorage:
-  - Al añadir/quitar productos se actualiza tanto la vista como el almacenamiento.
-  - Al recargar la página se carga el estado guardado y se refleja en la interfaz.
-  - Esto garantiza que el usuario no pierda su selección entre sesiones del navegador.
+✨ Funcionalidades principales
+📦 Productos
 
-Para ver la web
+Listado dinámico de productos obtenidos de la API FakeStore
 
- En GitHub Pages: http://beta.adalab.es/modulo-2-evaluacion-final-JenniferRomanMuerte/
+Tarjetas con imagen + título + precio + botón de compra
+
+Indicación visual cuando un producto está en el carrito
+
+🔎 Buscador
+
+Filtrado en tiempo real
+
+Búsqueda insensible a mayúsculas/minúsculas
+
+Mensaje de "No se han encontrado productos" cuando no hay coincidencias
+
+Botón para restablecer listado
+
+🛒 Carrito de compra
+
+Añadir productos
+
+Incrementar / decrementar cantidades
+
+Eliminar un producto o vaciar toda la cesta
+
+Guardado persistente usando localStorage
+
+Adaptación automática del layout según haya o no productos en el carrito
+
+🧩 Estructura del proyecto
+🗂️ HTML por partials
+
+El HTML está dividido en bloques para mejor organización:
+
+/partials
+ ├─ header.html
+ ├─ footer.html
+ ├─ main.html
+ └─ sections
+      ├─ productList.html
+      ├─ searchProducts.html
+      └─ shoppingCart.html
+
+
+Cada sección se inyecta en la estructura general para mantener el código modular y limpio.
+
+🧠 JavaScript
+📌 main.js
+
+Punto de entrada
+
+Hace la petición a la API
+
+Arranca la interfaz inicial
+
+📦 productList.js
+
+Render de productos
+
+Creación de tarjetas
+
+Cambio de estilos si un producto está en el carrito
+
+Manejo del botón Comprar / Eliminar
+
+🔎 searchProducts.js
+
+Lógica del buscador
+
+Filtros dinámicos
+
+Vista de mensajes y reseteo
+
+🛒 shoppingCart.js
+
+Render de la cesta
+
+Incrementar / decrementar cantidades
+
+Eliminar productos
+
+Vaciar carrito
+
+Sincronización con localStorage
+
+Gestión del layout (main.noCart)
+
+🎨 SCSS estructurado
+
+El proyecto usa SCSS modular:
+
+🎛 _variables.scss
+
+Colores
+
+Sombras
+
+Pesos de fuente
+
+Configuración del tema
+
+🧱 _mixins.scss
+
+Mixins para botones
+
+Mixins de hover
+
+Mixins de listas
+
+Estilos reutilizables
+
+📚 Estructura por componentes
+/scss
+ ├─ core
+ │    ├─ _variables.scss
+ │    ├─ _mixins.scss
+ ├─ layout
+ │    ├─ _main.scss
+ │    ├─ _header.scss
+ │    └─ _footer.scss
+ └─ components
+      ├─ _productList.scss
+      ├─ _search.scss
+      └─ _shoppingCart.scss
+
+💾 Persistencia del carrito
+
+Cada acción (añadir, eliminar, modificar cantidad) actualiza localStorage
+
+Al recargar la página, la web reconstruye la cesta
+
+La interfaz se sincroniza automáticamente
+
+El layout cambia según haya o no productos en el carrito
+
+🌐 Demo online
+
+Puedes ver la web funcionando aquí:
+👉 http://beta.adalab.es/modulo-2-evaluacion-final-JenniferRomanMuerte/
