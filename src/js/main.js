@@ -10,7 +10,6 @@ const requestData = () => {
     .then((response) => response.json())
     .then((data) => {
       products = data;
-      console.log(products);
       renderProductsList(products);
     })
     .catch((error) => {

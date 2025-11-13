@@ -1,4 +1,6 @@
 const productsListElement = document.querySelector(".js_productsList");
+const containerMessage = document.querySelector(".js_containerMessage");
+const btnReset = document.querySelector(".js_resetMessage");
 
 // Array para capturar los productos en el carrito
 let productsInCart = [];
@@ -115,7 +117,6 @@ const setProductMarkedInList = (productId, isInCart) => {
 
 // Función para añadir elementos al carrito
 const addingCart = (ev, products) => {
-  
   // Accedemos al elemento clicado
   const btnClicked = ev.currentTarget;
 
@@ -164,7 +165,18 @@ const addingCart = (ev, products) => {
 
   // Llamamos a la función para sincronizar localStorage y la sección del carrito
   syncCartStorageAndView();
-
 };
 
+// Función restablecer la lista de productos
+const resetProductList = (ev) => {
+  // Ocultamos el mensaje y el botón
+  containerMessage.classList.add("hidden");
+  // Pintamos todos los productos
+  renderProductsList(products);
+  //Vaciamos el input
+  inputSearch.value = "";
+  // Sincronizamos la vista
+  syncCartStorageAndView();
+};
 
+btnReset.addEventListener("click", resetProductList);
