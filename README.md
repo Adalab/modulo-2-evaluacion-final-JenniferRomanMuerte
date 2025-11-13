@@ -1,159 +1,126 @@
-🌟 AdaStore — Mini tienda online
-<p align="center"> <img src="public/images/AdaStore.png" width="500" alt="AdaStore preview"> </p>
-🛍️ Descripción
+# 🌟 **AdaStore – Mini tienda online**
 
-AdaStore es una tienda online demostrativa donde puedes:
+<p align="center">
+  <img src="public/images/AdaStore.png" width="500" alt="AdaStore preview">
+</p>
 
-Ver productos con imagen, título y precio
+---
 
-Buscarlos mediante un cuadro de búsqueda
+## 🛍️ **Descripción**
 
-Añadirlos al carrito
+AdaStore es una pequeña tienda online demostrativa que permite:
 
-Gestionar cantidades
+- 🖼️ Visualizar una lista de productos con imagen, precio y título
+- 🔎 Buscarlos por texto en tiempo real
+- 🛒 Añadirlos al carrito y gestionar cantidades
+- 💾 Mantener el carrito guardado gracias a **localStorage**
 
-Mantener el carrito guardado entre recargas gracias a localStorage
 
-Es un proyecto perfecto para practicar DOM, eventos, filtros, render dinámico y manejo de datos.
 
-✨ Funcionalidades principales
-📦 Productos
+---
 
-Listado dinámico de productos obtenidos de la API FakeStore
+## ✨ **Funcionalidades principales**
 
-Tarjetas con imagen + título + precio + botón de compra
+### 📦 Productos
+- Render dinámico de productos obtenidos de FakeStore API
+- Tarjetas con imagen, título, precio y botón
+- Marcado visual cuando un producto está en el carrito
 
-Indicación visual cuando un producto está en el carrito
+### 🔍 Búsqueda
+- Filtro en tiempo real (insensible a mayúsculas/minúsculas)
+- Mensaje automático cuando no existen resultados
+- Botón **"Volver"** para restablecer la lista
 
-🔎 Buscador
+### 🛒 Carrito de compra
+- Incrementar y decrementar cantidades
+- Eliminar un elemento o vaciar el carrito completo
+- Guardado en `localStorage`
+- Cambio automático del layout cuando el carrito está vacío
 
-Filtrado en tiempo real
+---
 
-Búsqueda insensible a mayúsculas/minúsculas
+## 🧩 **Estructura del proyecto**
 
-Mensaje de "No se han encontrado productos" cuando no hay coincidencias
-
-Botón para restablecer listado
-
-🛒 Carrito de compra
-
-Añadir productos
-
-Incrementar / decrementar cantidades
-
-Eliminar un producto o vaciar toda la cesta
-
-Guardado persistente usando localStorage
-
-Adaptación automática del layout según haya o no productos en el carrito
-
-🧩 Estructura del proyecto
-🗂️ HTML por partials
-
-El HTML está dividido en bloques para mejor organización:
+### 🗂️ Partials HTML
 
 /partials
- ├─ header.html
- ├─ footer.html
- ├─ main.html
- └─ sections
-      ├─ productList.html
-      ├─ searchProducts.html
-      └─ shoppingCart.html
+├─ header.html
+├─ footer.html
+├─ main.html
+└─ sections
+├─ productList.html
+├─ searchProducts.html
+└─ shoppingCart.html
 
+Cada partial contiene solo su bloque, facilitando la lectura y el mantenimiento.
 
-Cada sección se inyecta en la estructura general para mantener el código modular y limpio.
+---
 
-🧠 JavaScript
-📌 main.js
+## 🧠 **JavaScript**
 
-Punto de entrada
+### 📌 `main.js`
+- Punto de entrada
+- Petición a la API
+- Arranque del render inicial
 
-Hace la petición a la API
+### 📦 `productList.js`
+- Render de la lista de productos
+- Creación de tarjetas dinámicas
+- Cambiar estilos si están en el carrito
+- Lógica del botón *Comprar / Eliminar*
 
-Arranca la interfaz inicial
+### 🔎 `searchProducts.js`
+- Filtro por texto
+- Control de resultados vacíos
+- Botón de restablecimiento de lista
 
-📦 productList.js
+### 🛒 `shoppingCart.js`
+- Render del carrito
+- Incrementar/decrementar cantidad
+- Eliminar productos
+- Vaciar carrito
+- Sincronización con localStorage
+- Control del layout principal (`noCart`)
 
-Render de productos
+---
 
-Creación de tarjetas
+## 🎨 **SCSS modular**
 
-Cambio de estilos si un producto está en el carrito
+| Archivo | Función |
+|--------|---------|
+| **`_variables.scss`** | Colores, sombras, tipografías, pesos |
+| **`_mixins.scss`** | Mixins para botones, hover y layouts |
+| **`_main.scss`** | Estilos del grid principal y del estado `noCart` |
+| **Componentes** | Estilos separados por secciones |
 
-Manejo del botón Comprar / Eliminar
+### Estructura de SCSS
 
-🔎 searchProducts.js
-
-Lógica del buscador
-
-Filtros dinámicos
-
-Vista de mensajes y reseteo
-
-🛒 shoppingCart.js
-
-Render de la cesta
-
-Incrementar / decrementar cantidades
-
-Eliminar productos
-
-Vaciar carrito
-
-Sincronización con localStorage
-
-Gestión del layout (main.noCart)
-
-🎨 SCSS estructurado
-
-El proyecto usa SCSS modular:
-
-🎛 _variables.scss
-
-Colores
-
-Sombras
-
-Pesos de fuente
-
-Configuración del tema
-
-🧱 _mixins.scss
-
-Mixins para botones
-
-Mixins de hover
-
-Mixins de listas
-
-Estilos reutilizables
-
-📚 Estructura por componentes
 /scss
- ├─ core
- │    ├─ _variables.scss
- │    ├─ _mixins.scss
- ├─ layout
- │    ├─ _main.scss
- │    ├─ _header.scss
- │    └─ _footer.scss
- └─ components
-      ├─ _productList.scss
-      ├─ _search.scss
-      └─ _shoppingCart.scss
+├─ core
+│ ├─ _variables.scss
+│ ├─ _mixins.scss
+├─ layout
+│ ├─ _main.scss
+│ ├─ _header.scss
+│ └─ _footer.scss
+└─ components
+├─ _productList.scss
+├─ _search.scss
+└─ _shoppingCart.scss
 
-💾 Persistencia del carrito
+---
 
-Cada acción (añadir, eliminar, modificar cantidad) actualiza localStorage
+## 💾 **Persistencia del carrito**
 
-Al recargar la página, la web reconstruye la cesta
+- Estado guardado automáticamente en `localStorage`
+- Recuperación del carrito al recargar la página
+- Vista totalmente sincronizada con la lógica del almacenamiento
+- Adaptación automática del layout según haya o no productos
 
-La interfaz se sincroniza automáticamente
+---
 
-El layout cambia según haya o no productos en el carrito
+## 🌐 **Demo online**
 
-🌐 Demo online
+👉 **https://beta.adalab.es/modulo-2-evaluacion-final-JenniferRomanMuerte/**
 
-Puedes ver la web funcionando aquí:
-👉 http://beta.adalab.es/modulo-2-evaluacion-final-JenniferRomanMuerte/
+---
