@@ -16,6 +16,11 @@ AdaStore es una pequeña tienda online demostrativa que permite:
 - 💾 Mantener el carrito guardado gracias a **localStorage**
 
 
+---
+
+## 🌐 **Demo online**
+
+👉 **https://beta.adalab.es/modulo-2-evaluacion-final-JenniferRomanMuerte/**
 
 ---
 
@@ -119,8 +124,5 @@ Cada partial contiene solo su bloque, facilitando la lectura y el mantenimiento.
 
 ---
 
-## 🌐 **Demo online**
 
-👉 **https://beta.adalab.es/modulo-2-evaluacion-final-JenniferRomanMuerte/**
 
----
